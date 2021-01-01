@@ -1,9 +1,9 @@
-																	~~alertbot~~
+									~~alertbot~~
 __________________________________________________________________________________________________________
 NOTE: Titles with "##" are heading 1 and titles with # are heading 2, sent with message to slack. 
 You can choose anything for them. Reminder intervals is only calculated by time setting format.
-																	~~ Syntax~~
-											Date(yyyy-mm-dd) "Message" TIME(HH:MM)
+									~~ Syntax~~
+						Date(yyyy-mm-dd) "Message" TIME(HH:MM)
 __________________________________________________________________________________________________________
 
 
