@@ -32,7 +32,7 @@ Syntax :-
 
 ​	Date(yyyy-mm-dd) "Message" TIME(HH:MM) 
 
-Here Quotes(") are required
+Note - Here Quotes(") are required
 
 ## Example:
 
