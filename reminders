@@ -1,0 +1,50 @@
+																	~~alertbot~~
+__________________________________________________________________________________________________________
+NOTE: Titles with "##" are heading 1 and titles with # are heading 2, sent with message to slack. 
+You can choose anything for them. Reminder intervals is only calculated by time setting format.
+																	~~ Syntax~~
+											Date(yyyy-mm-dd) "Message" TIME(HH:MM)
+__________________________________________________________________________________________________________
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For running reminders once - full date is provided
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+## Once
+	# Testing
+		2021-1-1 "Testing hello" 06:16
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For running reminders daily - no date is provided
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+## Daily
+	# Testing
+		"Testing hello" 06:16
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For running reminders monthly - only day of month is provided
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+## Monthly
+	# Testing
+		1 "Testing hello" 06:16
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+For running reminders yearly - month and day is provided
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+## Yearly
+	# Birthday Alerts
+		1-18 "Bob" 11:00
+		1-19 "James Potter" 11:00
+		3-13 "Alan" 11:00
+		3-14 "Mom" 11:00
+		4-13 "Mr. A.K" 11:00
+
+
+	# Others
+		1-1 "Testing hello" 06:16

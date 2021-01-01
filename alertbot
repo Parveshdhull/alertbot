@@ -1,0 +1,150 @@
+#!/usr/bin/python3
+
+import argparse, subprocess, os, re, pickle
+from datetime import datetime
+from pathlib import Path
+from pynotifier import Notification
+
+today = datetime.now()
+
+day = today.strftime('%d')
+month = today.strftime('%m')
+year = today.strftime('%Y')
+hour = today.strftime('%H')
+mins = today.strftime('%M')
+
+current_timestamp = today.timestamp()
+lastrun_timestamp = 0
+
+fails = []
+heading1 = ""
+heading2 = ""
+allowed_gap = 60*60*24*2		# If program is used after long time, it will send only last two days reminders
+
+
+def get_arguments():
+	parser = argparse.ArgumentParser()
+	parser.add_argument("-r", "--reminders-file", dest="reminders", help="Reminders File", required=True)
+	parser.add_argument("-m", "--mode", dest="mode", help="Alert Mode(slack,desktop,both)", required=True)
+	arguments = parser.parse_args()
+	return arguments
+
+
+def send_notification(message):
+		Notification(title='alertbot',description=message, duration=10).send()
+
+
+def send_message(message):
+	global fails
+	exit_code =	 subprocess.call(["slackbot", "-c", "alertbot", "-m", message])
+	if exit_code != 0:
+		fails += [message]
+
+
+def read_lastrun():
+	global lastrun_timestamp
+	run_file = Path(str(Path.home())+"/.config/alertbot/run.log")
+	if run_file.is_file():
+		with open(run_file) as f:
+			lastrun_timestamp = float(f.read())
+	
+
+def save_lastrun():
+	run_file = Path(str(Path.home())+"/.config/alertbot/run.log")
+	parent = run_file.parent
+	Path(parent).mkdir(parents=True, exist_ok=True)
+	with open(run_file, "w") as f:
+		f.write(str(current_timestamp))
+
+
+def send_failed():
+	fails_file = Path(str(Path.home())+"/.config/alertbot/fails.log")
+	if fails_file.is_file():
+		with open(fails_file, "rb") as f:
+			fails = pickle.load(f)
+			print(fails)
+			for line in fails:
+				send_message(line)
+
+
+def write_failed():
+	fails_file = Path(str(Path.home())+"/.config/alertbot/fails.log")
+	parent = fails_file.parent
+	Path(parent).mkdir(parents=True, exist_ok=True)
+	with open(fails_file, "wb") as f:
+		print(fails)
+		pickle.dump(fails, f )
+
+
+def validate(line):
+	words = line.split('"')
+	date = words[0].strip()
+	message = words[1]
+	time = words[2].strip()
+
+	reminder_time = datetime.strptime(date+" "+time, '%Y-%m-%d %H:%M')
+	reminder_timestamp = reminder_time.timestamp()
+
+	if reminder_timestamp <= current_timestamp:
+		if reminder_timestamp > lastrun_timestamp:
+			if (current_timestamp-reminder_timestamp) < allowed_gap:
+				if mode == "desktop" or mode == "both":
+					send_notification(message)
+				if mode == "slack" or mode == "both":
+					message = "*" + heading1 + "* -> " + "_" + heading2 + "_" + "\n" + message + "\n" + ("-"*30)
+					send_message(message)
+
+
+def process_line(line):
+	global heading1, heading2
+	line = line.strip()
+	if "##" in line:
+		line = line.replace("##","")
+		line  = line.strip()
+		heading1 = line
+	elif "#" in line:
+		line = line.replace("#","")
+		line  = line.strip()
+		heading2 = line
+	else:
+		pattern_once = '\d+-\d+-\d+\s".+"\s\d+:\d+'
+		pattern_yearly = '\d+-\d+\s".+"\s\d+:\d+'
+		pattern_monthly = '\d+\s".+"\s\d+:\d+'
+		pattern_daily = '".+"\s\d+:\d+'
+
+		matched = True
+		if re.match(pattern_once, line):
+			pass
+		elif re.match(pattern_yearly, line):
+			line = year + "-" + line
+		elif re.match(pattern_monthly, line):
+			line = year + "-" + month + "-" + line
+		elif re.match(pattern_daily, line):
+			line = year + "-" + month + "-" + day + " " + line
+		else:
+			matched = False
+		if matched:
+			validate(line)
+
+
+def main_proces():
+	reminders_file = Path(reminders)
+	if reminders_file.is_file():
+		with open(reminders_file) as f:
+			for line in f:
+				process_line(line)
+	else:
+		print("[Error] - File not found!")
+
+
+arguments = get_arguments()
+reminders = arguments.reminders
+mode = arguments.mode
+
+read_lastrun()
+send_failed()
+
+main_proces()
+
+write_failed()
+save_lastrun()
