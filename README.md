@@ -7,6 +7,7 @@ Simple program to create reminders and send desktop notifications or slack alert
 - Create recurring reminders - daily, monthly, yearly
 - Saves failed or missed reminders (Ex. PC Turned Off, No Internet) - And sends them later.
 - Categories reminders in different sections
+- Create birthday alerts
 
 ## Prerequisite:
 pip install py-notifier
