@@ -12,8 +12,8 @@ For running reminders once - full date is provided
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ## Once
-	# Testing
-		2021-1-1 "Testing hello" 06:16
+	# Child
+		2021-1-1 "This is once running reminder" 06:16
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 For running reminders daily - no date is provided
@@ -21,7 +21,7 @@ For running reminders daily - no date is provided
 
 ## Daily
 	# Testing
-		"Testing hello" 06:16
+		"This is daily running reminder" 06:16
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -29,8 +29,8 @@ For running reminders monthly - only day of month is provided
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ## Monthly
-	# Testing
-		1 "Testing hello" 06:16
+	# branch
+		1 "This is monthly running reminder" 06:16
 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -47,4 +47,4 @@ For running reminders yearly - month and day is provided
 
 
 	# Others
-		1-1 "Testing hello" 06:16
+		1-1 "This is yearly running reminder" 06:16
