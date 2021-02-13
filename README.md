@@ -1,6 +1,6 @@
 # alertbot - Organized Reminder App
 
-Simple program to create reminders and send desktop notifications or slack alerts.
+Simple program to create reminders and send slack alerts or desktop notifications 
 
 ## Features
 - Very easy to create new reminders
