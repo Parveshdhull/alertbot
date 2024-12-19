@@ -1,3 +1,8 @@
+Note: This repository is no longer maintained. The latest version is available at [alertbot](https://github.com/Parveshdhull/dotfiles/blob/main/bin/alertbot).
+
+---
+
+
 # alertbot - Organized Reminder App
 
 Simple program to create reminders and send slack alerts or desktop notifications 
